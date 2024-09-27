@@ -157,6 +157,6 @@ if __name__ == "__main__":
         "signature": "John Doe11",
         "rank": "John Doe12",
     }
-data = IP110Validator(**external_data)
-form = IP_110FormView(data)
-form.incert_to_db()
+    data = IP110Validator(**external_data)
+    form = IP_110FormView(data)
+    form.incert_to_db()

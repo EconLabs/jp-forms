@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
+from pathlib import Path
 import polars as pl
 import psycopg2
 import os
@@ -23,7 +24,7 @@ class DAO:
             password=db_password,
             port=db_port,
         )
-        with open("forms/yearly/schema.sql", "r") as file:
+        with open(Path(os.path.dirname(__file__) + "/../yearly/schema.sql").resolve(), "r") as file:
             sql_query = file.read()
         cursor = self.conn.cursor()
         cursor.execute(sql_query)
