@@ -3,7 +3,7 @@ from ..dao.db import DAO
 import polars as pl
 
 class IP110Validator(BaseModel):
-    company_name: str 
+    company_name: str
     address: str
     email: str
     liaison_officer: str
