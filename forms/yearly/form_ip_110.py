@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from .db import DAO
+from ..dao.db import DAO
 import polars as pl
 
 class IP110Validator(BaseModel):
