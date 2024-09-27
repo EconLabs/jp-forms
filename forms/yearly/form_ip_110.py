@@ -1,157 +1,162 @@
-from django.shortcuts import render
-from src.dao.data_db_dao import DAO
+from pydantic import BaseModel
+from db import DAO
 import polars as pl
 
-def IP_110(request):
-    if request.method == "POST":
-        # Retrieve form data
-        company_name = request.POST.get("company_name")
-        address = request.POST.get("address")
-        email = request.POST.get("email")
-        liaison_officer = request.POST.get("liaison_officer")
-        ssn = request.POST.get("ssn")
-        tel = request.POST.get("tel")
-        fax = request.POST.get("fax")
-        legal_form = request.POST.get("legal_form")
-        cfc = request.POST.get("cfc")
-        business_type = request.POST.get("business_type")
-        business_function = request.POST.get("business_function")
-        branches = request.POST.get("branches")
-        closing_date = request.POST.get("closing_date")
-        start_year = request.POST.get("start_year")
-        end_year = request.POST.get("end_year")
-        incomes_services_revenues_1 = request.POST.get("incomes_services_revenues_1")
-        incomes_services_revenues_2 = request.POST.get("incomes_services_revenues_2")
-        incomes_industries_1 = request.POST.get("incomes_industries_1")
-        incomes_industries_2 = request.POST.get("incomes_industries_2")
-        incomes_persons_1 = request.POST.get("incomes_persons_1")
-        incomes_persons_2 = request.POST.get("incomes_persons_2")
-        incomes_sale_merchandise_1 = request.POST.get("incomes_sale_merchandise_1")
-        incomes_sale_merchandise_2 = request.POST.get("incomes_sale_merchandise_2")
-        incomes_rents_1 = request.POST.get("incomes_rents_1")
-        incomes_rents_2 = request.POST.get("incomes_rents_2")
-        incomes_interests_1 = request.POST.get("incomes_interests_1")
-        incomes_interests_2 = request.POST.get("incomes_interests_2")
-        incomes_capital_gain_loss_1 = request.POST.get("incomes_capital_gain_loss_1")
-        incomes_capital_gain_loss_2 = request.POST.get("incomes_capital_gain_loss_2")
-        others_incomes_1 = request.POST.get("others_incomes_1")
-        others_incomes_2 = request.POST.get("others_incomes_2")
-        total_income_1 = request.POST.get("total_income_1")
-        total_income_2 = request.POST.get("total_income_2")
-        expenses_1 = request.POST.get("expenses_1")
-        expenses_2 = request.POST.get("expenses_2")
-        expenses_salaries_wages_bonus_1 = request.POST.get("expenses_salaries_wages_bonus_1")
-        expenses_salaries_wages_bonus_2 = request.POST.get("expenses_salaries_wages_bonus_2")
-        expenses_interests_1 = request.POST.get("expenses_interests_1")
-        expenses_interests_2 = request.POST.get("expenses_interests_2")
-        expenses_rents_1 = request.POST.get("expenses_rents_1")
-        expenses_rents_2 = request.POST.get("expenses_rents_2")
-        expenses_depreciation_1 = request.POST.get("expenses_depreciation_1")
-        expenses_depreciation_2 = request.POST.get("expenses_depreciation_2")
-        expenses_bad_debts_1 = request.POST.get("expenses_bad_debts_1")
-        expenses_bad_debts_2 = request.POST.get("expenses_bad_debts_2")
-        expenses_donation_1 = request.POST.get("expenses_donation_1")
-        expenses_donation_2 = request.POST.get("expenses_donation_2")
-        expenses_sales_tax_1 = request.POST.get("expenses_sales_tax_1")
-        expenses_sales_tax_2 = request.POST.get("expenses_sales_tax_2")
-        expenses_machinery_1 = request.POST.get("expenses_machinery_1")
-        expenses_machinery_2 = request.POST.get("expenses_machinery_2")
-        other_purchases_1 = request.POST.get("other_purchases_1")
-        other_purchases_2 = request.POST.get("other_purchases_2")
-        licenses_1 = request.POST.get("licenses_1")
-        licenses_2 = request.POST.get("licenses_2")
-        other_expenses_1 = request.POST.get("other_expenses_1")
-        other_expenses_2 = request.POST.get("other_expenses_2")
-        total_expenses_1 = request.POST.get("total_expenses_1")
-        total_expenses_2 = request.POST.get("total_expenses_2")
-        net_profit_1 = request.POST.get("net_profit_1")
-        net_profit_2 = request.POST.get("net_profit_2")
-        net_profit_income_tax_1 = request.POST.get("net_profit_income_tax_1")
-        net_profit_income_tax_2 = request.POST.get("net_profit_income_tax_2")
-        profit_after_tax_1 = request.POST.get("profit_after_tax_1")
-        profit_after_tax_2 = request.POST.get("profit_after_tax_2")
-        withheld_tax_1 = request.POST.get("withheld_tax_1")
-        withheld_tax_2 = request.POST.get("withheld_tax_2")
-        signature = request.POST.get("signature")
-        rank = request.POST.get("rank")
+class IP110Validator(BaseModel):
+    company_name: str 
+    address: str
+    email: str
+    liaison_officer: str
+    ssn: str
+    tel: str
+    fax: str
+    legal_form: str
+    cfc: str
+    business_type: str
+    business_function: str
+    branches: str
+    closing_date: str
+    start_year: int
+    end_year: int
+    incomes_services_revenues_1: float
+    incomes_services_revenues_2: float
+    incomes_industries_1: float
+    incomes_industries_2: float
+    incomes_persons_1: float
+    incomes_persons_2: float
+    incomes_sale_merchandise_1: float
+    incomes_sale_merchandise_2: float
+    incomes_rents_1: float
+    incomes_rents_2: float
+    incomes_interests_1: float
+    incomes_interests_2: float
+    incomes_capital_gain_loss_1: float
+    incomes_capital_gain_loss_2: float
+    others_incomes_1: float
+    others_incomes_2: float
+    total_income_1: float
+    total_income_2: float
+    expenses_1: float
+    expenses_2: float
+    expenses_salaries_wages_bonus_1: float
+    expenses_salaries_wages_bonus_2: float
+    expenses_interests_1: float
+    expenses_interests_2: float
+    expenses_rents_1: float
+    expenses_rents_2: float
+    expenses_depreciation_1: float
+    expenses_depreciation_2: float
+    expenses_bad_debts_1: float
+    expenses_bad_debts_2: float
+    expenses_donation_1: float
+    expenses_donation_2: float
+    expenses_sales_tax_1: float
+    expenses_sales_tax_2: float
+    expenses_machinery_1: float
+    expenses_machinery_2: float
+    other_purchases_1: float
+    other_purchases_2: float
+    licenses_1: float
+    licenses_2: float
+    other_expenses_1: float
+    other_expenses_2: float
+    total_expenses_1: float
+    total_expenses_2: float
+    net_profit_1: float
+    net_profit_2: float
+    net_profit_income_tax_1: float
+    net_profit_income_tax_2: float
+    profit_after_tax_1: float
+    profit_after_tax_2: float
+    withheld_tax_1: float
+    withheld_tax_2: float
+    signature: str
+    rank: str
 
-        data = [
-            pl.Series("company_name", [company_name], dtype=pl.String),
-            pl.Series("address", [address], dtype=pl.String),
-            pl.Series("email", [email], dtype=pl.String),
-            pl.Series("liaison_officer", [liaison_officer], dtype=pl.String),
-            pl.Series("ssn", [ssn], dtype=pl.String),
-            pl.Series("tel", [tel], dtype=pl.String),
-            pl.Series("fax", [fax], dtype=pl.String),
-            pl.Series("legal_form", [legal_form], dtype=pl.String),
-            pl.Series("cfc", [cfc], dtype=pl.String),
-            pl.Series("business_type", [business_type], dtype=pl.String),
-            pl.Series("business_function", [business_function], dtype=pl.String),
-            pl.Series("branches", [branches], dtype=pl.String),
-            pl.Series("closing_date", [closing_date], dtype=pl.String),
-            pl.Series("start_year", [start_year], dtype=pl.String),
-            pl.Series("end_year", [end_year], dtype=pl.String),
-            pl.Series("incomes_services_revenues_1", [float(incomes_services_revenues_1)], dtype=pl.Float64),
-            pl.Series("incomes_services_revenues_2", [float(incomes_services_revenues_2)], dtype=pl.Float64),
-            pl.Series("incomes_industries_1", [float(incomes_industries_1)], dtype=pl.Float64),
-            pl.Series("incomes_industries_2", [float(incomes_industries_2)], dtype=pl.Float64),
-            pl.Series("incomes_persons_1", [float(incomes_persons_1)], dtype=pl.Float64),
-            pl.Series("incomes_persons_2", [float(incomes_persons_2)], dtype=pl.Float64),
-            pl.Series("incomes_sale_merchandise_1", [float(incomes_sale_merchandise_1)], dtype=pl.Float64),
-            pl.Series("incomes_sale_merchandise_2", [float(incomes_sale_merchandise_2)], dtype=pl.Float64),
-            pl.Series("incomes_rents_1", [float(incomes_rents_1)], dtype=pl.Float64),
-            pl.Series("incomes_rents_2", [float(incomes_rents_2)], dtype=pl.Float64),
-            pl.Series("incomes_interests_1", [float(incomes_interests_1)], dtype=pl.Float64),
-            pl.Series("incomes_interests_2", [float(incomes_interests_2)], dtype=pl.Float64),
-            pl.Series("incomes_capital_gain_loss_1", [float(incomes_capital_gain_loss_1)], dtype=pl.Float64),
-            pl.Series("incomes_capital_gain_loss_2", [float(incomes_capital_gain_loss_2)], dtype=pl.Float64),
-            pl.Series("others_incomes_1", [float(others_incomes_1)], dtype=pl.Float64),
-            pl.Series("others_incomes_2", [float(others_incomes_2)], dtype=pl.Float64),
-            pl.Series("total_income_1", [float(total_income_1)], dtype=pl.Float64),
-            pl.Series("total_income_2", [float(total_income_2)], dtype=pl.Float64),
-            pl.Series("expenses_1", [float(expenses_1)], dtype=pl.Float64),
-            pl.Series("expenses_2", [float(expenses_2)], dtype=pl.Float64),
-            pl.Series("expenses_salaries_wages_bonus_1", [float(expenses_salaries_wages_bonus_1)], dtype=pl.Float64),
-            pl.Series("expenses_salaries_wages_bonus_2", [float(expenses_salaries_wages_bonus_2)], dtype=pl.Float64),
-            pl.Series("expenses_interests_1", [float(expenses_interests_1)], dtype=pl.Float64),
-            pl.Series("expenses_interests_2", [float(expenses_interests_2)], dtype=pl.Float64),
-            pl.Series("expenses_rents_1", [float(expenses_rents_1)], dtype=pl.Float64),
-            pl.Series("expenses_rents_2", [float(expenses_rents_2)], dtype=pl.Float64),
-            pl.Series("expenses_depreciation_1", [float(expenses_depreciation_1)], dtype=pl.Float64),
-            pl.Series("expenses_depreciation_2", [float(expenses_depreciation_2)], dtype=pl.Float64),
-            pl.Series("expenses_bad_debts_1", [float(expenses_bad_debts_1)], dtype=pl.Float64),
-            pl.Series("expenses_bad_debts_2", [float(expenses_bad_debts_2)], dtype=pl.Float64),
-            pl.Series("expenses_donation_1", [float(expenses_donation_1)], dtype=pl.Float64),
-            pl.Series("expenses_donation_2", [float(expenses_donation_2)], dtype=pl.Float64),
-            pl.Series("expenses_sales_tax_1", [float(expenses_sales_tax_1)], dtype=pl.Float64),
-            pl.Series("expenses_sales_tax_2", [float(expenses_sales_tax_2)], dtype=pl.Float64),
-            pl.Series("expenses_machinery_1", [float(expenses_machinery_1)], dtype=pl.Float64),
-            pl.Series("expenses_machinery_2", [float(expenses_machinery_2)], dtype=pl.Float64),
-            pl.Series("other_purchases_1", [float(other_purchases_1)], dtype=pl.Float64),
-            pl.Series("other_purchases_2", [float(other_purchases_2)], dtype=pl.Float64),
-            pl.Series("licenses_1", [float(licenses_1)], dtype=pl.Float64),
-            pl.Series("licenses_2", [float(licenses_2)], dtype=pl.Float64),
-            pl.Series("other_expenses_1", [float(other_expenses_1)], dtype=pl.Float64),
-            pl.Series("other_expenses_2", [float(other_expenses_2)], dtype=pl.Float64),
-            pl.Series("total_expenses_1", [float(total_expenses_1)], dtype=pl.Float64),
-            pl.Series("total_expenses_2", [float(total_expenses_2)], dtype=pl.Float64),
-            pl.Series("net_profit_1", [float(net_profit_1)], dtype=pl.Float64),
-            pl.Series("net_profit_2", [float(net_profit_2)], dtype=pl.Float64),
-            pl.Series("net_profit_income_tax_1", [float(net_profit_income_tax_1)], dtype=pl.Float64),
-            pl.Series("net_profit_income_tax_2", [float(net_profit_income_tax_2)], dtype=pl.Float64),
-            pl.Series("profit_after_tax_1", [float(profit_after_tax_1)], dtype=pl.Float64),
-            pl.Series("profit_after_tax_2", [float(profit_after_tax_2)], dtype=pl.Float64),
-            pl.Series("withheld_tax_1", [float(withheld_tax_1)], dtype=pl.Float64),
-            pl.Series("withheld_tax_2", [float(withheld_tax_2)], dtype=pl.Float64),
-            pl.Series("signature", [signature], dtype=pl.String),
-            pl.Series("rank", [rank], dtype=pl.String),
-        ]
+class IP_110FormView():
+    def __init__(self, form: IP110Validator):
+        self.raw = form
+        self.df = []
 
-        df = pl.DataFrame(data)
+    def incert_to_db(self):
+        for key, value in self.raw:
+            self.df.append(pl.Series(key, [value]))
+
+        df = pl.DataFrame(self.df)
         DAO().insert_forms(df, "IP_110", 15)
 
-
-
-        return render(request, "forms/succesfull.html")
-
-    return render(request, "forms/yearly/ingreso_neto/IP-110.html")
+if __name__ == "__main__":
+    external_data = {
+        "company_name": "John Doe1",
+        "address": "123 Main Street",
+        "email": "name@test.com",
+        "liaison_officer": "John Doe2",
+        "ssn": "123456789",
+        "tel": "123456789",
+        "fax": "123456789",
+        "legal_form": "John Doe3",
+        "cfc": "John Doe4",
+        "business_type": "John Doe5",
+        "business_function": "John Doe6",
+        "branches": "John Doe7",
+        "closing_date": "John Doe8",
+        "start_year": 2021,
+        "end_year": 2023,
+        "incomes_services_revenues_1": 1.0,
+        "incomes_services_revenues_2": 1.0,
+        "incomes_industries_1": 1.0,
+        "incomes_industries_2": 1.0,
+        "incomes_persons_1": 1.0,
+        "incomes_persons_2": 1.0,
+        "incomes_sale_merchandise_1": 1.0,
+        "incomes_sale_merchandise_2": 1.0,
+        "incomes_rents_1": 1.0,
+        "incomes_rents_2": 1.0,
+        "incomes_interests_1": 1.0,
+        "incomes_interests_2": 1.0,
+        "incomes_capital_gain_loss_1": 1.0,
+        "incomes_capital_gain_loss_2": 1.0,
+        "others_incomes_1": 1.0,
+        "others_incomes_2": 1.0,
+        "total_income_1": 1.0,
+        "total_income_2": 1.0,
+        "expenses_1": 1.0,
+        "expenses_2": 1.0,
+        "expenses_salaries_wages_bonus_1": 1.0,
+        "expenses_salaries_wages_bonus_2": 1.0,
+        "expenses_interests_1": 1.0,
+        "expenses_interests_2": 1.0,
+        "expenses_rents_1": 1.0,
+        "expenses_rents_2": 1.0,
+        "expenses_depreciation_1": 1.0,
+        "expenses_depreciation_2": 1.0,
+        "expenses_bad_debts_1": 1.0,
+        "expenses_bad_debts_2": 1.0,
+        "expenses_donation_1": 1.0,
+        "expenses_donation_2": 1.0,
+        "expenses_sales_tax_1": 1.0,
+        "expenses_sales_tax_2": 1.0,
+        "expenses_machinery_1": 1.0,
+        "expenses_machinery_2": 1.0,
+        "other_purchases_1": 1.0,
+        "other_purchases_2": 1.0,
+        "licenses_1": 1.0,
+        "licenses_2": 1.0,
+        "other_expenses_1": 1.0,
+        "other_expenses_2": 1.0,
+        "total_expenses_1": 1.0,
+        "total_expenses_2": 1.0,
+        "net_profit_1": 1.0,
+        "net_profit_2": 1.0,
+        "net_profit_income_tax_1": 1.0,
+        "net_profit_income_tax_2": 1.0,
+        "profit_after_tax_1": 1.0,
+        "profit_after_tax_2": 1.0,
+        "withheld_tax_1": 1.0,
+        "withheld_tax_2": 1.0,
+        "signature": "John Doe11",
+        "rank": "John Doe12",
+    }
+data = IP110Validator(**external_data)
+form = IP_110FormView(data)
+form.incert_to_db()
