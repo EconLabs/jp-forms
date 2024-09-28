@@ -1,9 +1,9 @@
-from django.shortcuts import render
-from src.dao.data_db_dao import DAO
+from pydantic import BaseModel
+from ..dao.db import DAO
 import polars as pl
 
 
-def IP_220(request):
+class IP220Validator(BaseModel):
     if request.method == "POST":
         # Retrieve form data
         company_name = request.POST.get("company_name")
