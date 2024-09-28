@@ -49,7 +49,7 @@ class IP210Validator(BaseModel):
     expenses_bad_debts_1: float
     expenses_bad_debts_2: float
     expenses_donation_1: float
-    expenses_donation_2; float
+    expenses_donation_2: float
     expenses_sales_tax_1: float
     expenses_sales_tax_2: float
     expenses_machinery_1: float
