@@ -72,3 +72,15 @@ class IP220Validator(BaseModel):
     withheld_tax_2: float
     signature: str
     rank: str
+    
+class IP_220FormView():
+    def __init__(self, form: IP220Validator):
+        self.raw = form
+        self.df = []
+        
+    def incert_to_db(self):
+        for key, value in self.raw:
+            self.df.append(pl.Series(key, [value]))
+            
+        df = pl.DataFrame(self.df)
+        DAO().insert_forms(df, "IP_220", 15)
