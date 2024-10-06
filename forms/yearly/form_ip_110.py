@@ -1,7 +1,18 @@
-from typing import Optional
 from sqlmodel import Field, Session, SQLModel, create_engine
+from typing import Optional
 
 class IP110Yearly(SQLModel, table=True):
+    """
+    Schema for IP-110 Yearly form
+
+    Parameters:
+    -----------
+    **args: Arguments given by the form
+
+    Returns:
+    --------
+    None
+    """
     id: Optional[int] = Field(default=None, primary_key=True)
     company_name: str
     address: str
@@ -72,7 +83,6 @@ class IP110Yearly(SQLModel, table=True):
     withheld_tax_2: float
     signature: str
     rank: str
-
 
 if __name__ == "__main__":
     engine = create_engine("sqlite:///db.sqlite")
