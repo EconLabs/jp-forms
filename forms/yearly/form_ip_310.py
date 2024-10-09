@@ -74,16 +74,16 @@ class IP310Validator(BaseModel):
     rank: str
     
 class IP_310FormView():
-     def __init__(self, form: IP310Validator):
+    def __init__(self, form: IP310Validator):
          self.raw = form 
          self.df = []
          
-    def incert_to_db(self):
-       for key, value in self.raw:
-           self.df.append(pl.Series(key, [value]))
-         
+    def insert_to_db(self):
+        for key, value in self.raw:
+            self.df.append(pl.Series(key, [value]))
+            
         df = pl.DataFrame(self.df)
-        DAO().insert_forms(df, "IP_310", 15)
+        DAO().insert_forms(df, "IP_230", 15)
         
                        
          

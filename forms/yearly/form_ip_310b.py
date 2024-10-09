@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from ..dao.db import DAO
 import polars as pl
 
-class IP310bValidator(BaseModel)
+class IP310bValidator(BaseModel):
     company_name: str
     address: str
     email: str
@@ -78,7 +78,7 @@ class IP_310bFormView():
         self.raw = form
         self.df =[]
         
-    def incert_to_db(self):
+    def insert_to_db(self):
         for key, value in self.raw:
             self.df.append(pl.Series(key, [value]))
             

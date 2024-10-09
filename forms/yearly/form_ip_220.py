@@ -78,7 +78,7 @@ class IP_220FormView():
         self.raw = form
         self.df = []
         
-    def incert_to_db(self):
+    def insert_to_db(self):
         for key, value in self.raw:
             self.df.append(pl.Series(key, [value]))
             
