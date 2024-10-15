@@ -72,15 +72,3 @@ class IP510Validator(SQLModel, table=True):
     withheld_tax_2: float
     signature: str
     rank: str
-    
-class IP_510FormView():
-    def __init__(self, form: IP510Validator):
-        self.raw = form
-        self.df = []
-        
-    def incert_to_db(self):
-        for key, value in self.raw:
-            self.df.append(pl.Series(key, [value]))
-            
-        df = pl.DataFrame(self.df)
-        DAO().insert_forms(df, "IP_510", 15)
