@@ -1,8 +1,19 @@
-from pydantic import BaseModel
-from ..dao.db import DAO
-import polars as pl
+from sqlmodel import Field, SQLModel
+from typing import Optional
 
-class IP520sValidator(BaseModel):
+class IP520sValidator(SQLModel, table=True):
+    """
+    Schema for IP-520s Validator form
+
+    Parameters:
+    -----------
+    **args: Arguments given by the form
+
+    Returns:
+    --------
+    None
+    """
+    id: Optional[int] = Field(default=None, primary_key=True)
     company_name: str
     address: str
     email: str
@@ -20,7 +31,7 @@ class IP520sValidator(BaseModel):
     closing_date: str
     start_year: int
     end_year: int
-    
+
     # Income fields for the first and second periods
     incomes_premium_earned_1: float
     incomes_premium_earned_2: float
@@ -46,7 +57,7 @@ class IP520sValidator(BaseModel):
     incomes_other_operation_2: float
     incomes_total_1: float
     incomes_total_2: float
-    
+
     # Expense fields for the first and second periods
     expenses_1: float
     expenses_2: float
@@ -92,25 +103,13 @@ class IP520sValidator(BaseModel):
     expenses_other_operating_2: float
     expenses_total_1: float
     expenses_total_2: float
-    
+
     # Profit and tax fields
     gross_profit_1: float
     gross_profit_2: float
     sales_tax_withheld_1: float
     sales_tax_withheld_2: float
-    
+
     # Other fields
     name: str
     rank: str
-
-class IP_520sFormView():
-    def __init__(self, form: IP520sValidator):
-        self.raw = form
-        self.df = []
-        
-    def insert_to_db(self):
-        for key, value in self.raw:
-            self.df.append(pl.Series(key, [value]))
-        
-        df = pl.DataFrame(self.df)
-        DAO().insert_forms(df, "IP_520s", 39)

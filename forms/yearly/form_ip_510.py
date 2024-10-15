@@ -1,8 +1,19 @@
-from pydantic import BaseModel
-from ..dao.db import DAO
-import polars as pl
+from sqlmodel import Field, SQLModel
+from typing import Optional
 
-class IP510Validator(BaseModel):
+class IP510Validator(SQLModel, table=True):
+    """
+    Schema for IP-510 Validator form
+
+    Parameters:
+    -----------
+    **args: Arguments given by the form
+
+    Returns:
+    --------
+    None
+    """
+    id: Optional[int] = Field(default=None, primary_key=True)
     company_name: str
     address: str
     email: str
@@ -19,8 +30,8 @@ class IP510Validator(BaseModel):
     closing_date: str
     start_year: int
     end_year: int
-    
-    # Sales and Costs fields for the first and second periods
+
+
     sales_from_persons_1: float
     sales_from_persons_2: float
     sales_industries_businesses_1: float
@@ -71,7 +82,7 @@ class IP510Validator(BaseModel):
     other_operating_other_2: float
     total_gross_1: float
     total_gross_2: float
-    
+
     # Expenses not included
     expenses_not_included_1: float
     expenses_not_included_2: float
@@ -95,8 +106,7 @@ class IP510Validator(BaseModel):
     expenses_not_included_on_other_2: float
     expenses_not_included_licenses_1: float
     expenses_not_included_licenses_2: float
-    
-    # Profit and tax-related fields
+
     net_profit_loss_1: float
     net_profit_loss_2: float
     net_profit_loss_income_tax_1: float
@@ -105,21 +115,9 @@ class IP510Validator(BaseModel):
     profit_after_tax_2: float
     sales_and_use_withheld_1: float
     sales_and_use_withheld_2: float
-    
-    # Other fields
+
     branches: str
     branches_if_yes: str
     name: str
     rank: str
 
-class IP_510FormView():
-    def __init__(self, form: IP510Validator):
-        self.raw = form
-        self.df = []
-        
-    def insert_to_db(self):
-        for key, value in self.raw:
-            self.df.append(pl.Series(key, [value]))
-        
-        df = pl.DataFrame(self.df)
-        DAO().insert_forms(df, "IP_510", 36)

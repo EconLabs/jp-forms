@@ -1,8 +1,19 @@
-from pydantic import BaseModel
-from ..dao.db import DAO
-import polars as pl
+from sqlmodel import Field, SQLModel
+from typing import Optional
 
-class IP490Validator(BaseModel):
+class IP490Validator(SQLModel, table=True):
+    """
+    Schema for IP-490 Validator form
+
+    Parameters:
+    -----------
+    **args: Arguments given by the form
+
+    Returns:
+    --------
+    None
+    """
+    id: Optional[int] = Field(default=None, primary_key=True)
     company_name: str
     address: str
     email: str
@@ -17,8 +28,7 @@ class IP490Validator(BaseModel):
     closing_date: str
     start_year: int
     end_year: int
-    
-    # Financial fields for the first and second periods
+
     income_operations_1: float
     income_operations_2: float
     people_A_1: float
@@ -63,19 +73,6 @@ class IP490Validator(BaseModel):
     profit_C_after_2: float
     sales_D_1: float
     sales_D_2: float
-    
-    # Other fields
+
     name: str
     rank: str
-
-class IP_490FormView():
-    def __init__(self, form: IP490Validator):
-        self.raw = form
-        self.df = []
-        
-    def insert_to_db(self):
-        for key, value in self.raw:
-            self.df.append(pl.Series(key, [value]))
-        
-        df = pl.DataFrame(self.df)
-        DAO().insert_forms(df, "IP_490", 35)

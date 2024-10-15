@@ -1,8 +1,9 @@
-from pydantic import BaseModel
-from ..dao.db import DAO
-import polars as pl
+from sqlmodel import SQLModel, Field
+from typing import Optional
 
-class IP440Validator(BaseModel):
+
+class IP440Validator(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
     company_name: str
     address: str
     email: str
@@ -19,10 +20,10 @@ class IP440Validator(BaseModel):
     start_year: int
     end_year: int
     incomes_services_revenues_1: float
-    incomes_services_revenues_2: float 
+    incomes_services_revenues_2: float
     incomes_industries_1: float
     incomes_industries_2: float
-    incomes_persons_1: float 
+    incomes_persons_1: float
     incomes_persons_2: float
     incomes_sales_merchandise_1: float
     incomes_sales_merchandise_2: float
@@ -70,17 +71,5 @@ class IP440Validator(BaseModel):
     profit_after_tax_2: float
     withheld_tax_1: float
     withheld_tax_2: float
-    signature: str 
+    signature: str
     rank: str
-    
-class IP_440FormView():
-    def __init__(self, form: IP440Validator):
-        self.raw = form
-        self.df = []
-        
-    def insert_to_db(self):
-        for key, value in self.raw:
-            self.df.append(pl.Series(key, [value]))
-            
-        df = pl.DataFrame(self.df)
-        DAO().insert_forms(df, "IP_440", 15)

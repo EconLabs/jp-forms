@@ -1,8 +1,19 @@
-from pydantic import BaseModel
-from ..dao.db import DAO
-import polars as pl
+from sqlmodel import Field, SQLModel
+from typing import Optional
 
-class IP480aValidator(BaseModel):
+class IP480aValidator(SQLModel, table=True):
+    """
+    Schema for IP-480a Validator form
+
+    Parameters:
+    -----------
+    **args: Arguments given by the form
+
+    Returns:
+    --------
+    None
+    """
+    id: Optional[int] = Field(default=None, primary_key=True)
     company_name: str
     address: str
     email: str
@@ -16,7 +27,7 @@ class IP480aValidator(BaseModel):
     closing_date: str
     start_year: int
     end_year: int
-    
+
     people_A_1: float
     people_A_2: float
     industries_businesses_A_1: float
@@ -43,7 +54,7 @@ class IP480aValidator(BaseModel):
     other_incomes_2: float
     total_incomes_1: float
     total_incomes_2: float
-    
+
     salaries_1: float
     salaries_2: float
     commissions_employees_1: float
@@ -72,7 +83,7 @@ class IP480aValidator(BaseModel):
     other_expenses_2: float
     total_expenses_1: float
     total_expenses_2: float
-    
+
     net_profit_1: float
     net_profit_2: float
     income_tax_1: float
@@ -81,9 +92,10 @@ class IP480aValidator(BaseModel):
     profit_after_tax_2: float
     withheld_tax_1: float
     withheld_tax_2: float
-    
+
     signature: str
     rank: str
+
 
 class IP_480aFormView():
     def __init__(self, form: IP480aValidator):
