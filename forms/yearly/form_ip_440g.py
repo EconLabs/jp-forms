@@ -1,8 +1,8 @@
-from pydantic import BaseModel
-from ..dao.db import DAO
-import polars as pl
+from sqlmodel import Field, Session, SQLModel, create_engine
+from typing import Optional
 
-class IP440gValidator(BaseModel):
+class IP440gValidator(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
     company_name: str
     address: str
     email: str
@@ -73,17 +73,6 @@ class IP440gValidator(BaseModel):
     signature: str
     rank: str
     
-class IP_440gFormView():
-    def __init__(self, form: IP440gValidator):
-        self.raw = form
-        self.df = []
-        
-    def incert_to_db(self):
-        for key, value in self.raw:
-            self.df.append(pl.Series(key, [value]))
-            
-        df = pl.DataFrame(self.df)
-        DAO().insert_forms(df, "IP_440g", 15)
     
     
 
