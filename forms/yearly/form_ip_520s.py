@@ -32,7 +32,6 @@ class IP520sValidator(SQLModel, table=True):
     start_year: int
     end_year: int
 
-    # Income fields for the first and second periods
     incomes_premium_earned_1: float
     incomes_premium_earned_2: float
     incomes_disability_1: float
@@ -58,7 +57,6 @@ class IP520sValidator(SQLModel, table=True):
     incomes_total_1: float
     incomes_total_2: float
 
-    # Expense fields for the first and second periods
     expenses_1: float
     expenses_2: float
     expenses_premium_earned_1: float
@@ -104,12 +102,10 @@ class IP520sValidator(SQLModel, table=True):
     expenses_total_1: float
     expenses_total_2: float
 
-    # Profit and tax fields
     gross_profit_1: float
     gross_profit_2: float
     sales_tax_withheld_1: float
     sales_tax_withheld_2: float
 
-    # Other fields
     name: str
     rank: str
