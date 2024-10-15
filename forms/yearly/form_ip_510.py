@@ -1,8 +1,8 @@
-from pydantic import BaseModel
-from ..dao.db import DAO
-import polars as pl
+from sqlmodel import Field, Session, SQLModel, create_engine
+from typing import Optional
 
-class IP510Validator(BaseModel):
+class IP510Validator(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
     company_name: str
     address: str
     email: str
