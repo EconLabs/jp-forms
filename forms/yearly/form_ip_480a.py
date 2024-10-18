@@ -1,4 +1,4 @@
-from sqlmodel import Field, Session, SQLModel, create_engine
+from sqlmodel import Field, SQLModel
 from typing import Optional
 
 class IP480aValidator(SQLModel, table=True):
