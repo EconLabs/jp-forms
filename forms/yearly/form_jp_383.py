@@ -1,7 +1,7 @@
 from sqlmodel import Field, SQLModel
 from typing import Optional
 
-class IP383Validator(SQLModel, table=True):
+class JP383Validator(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     company_name: str
     address: str
