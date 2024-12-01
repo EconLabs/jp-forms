@@ -1,0 +1,10 @@
+[project]
+authors = [{ name = "Alejandro Ousland", email = "alejandro.ouslan@upr.edu" }]
+license = { text = "GPL-3.0-or-later" }
+name = "jp-forms"
+version = "0.1.0"
+description = "Submodule for the JP-Webapp project"
+keywords = ["sql", "webapp", "forms"]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["sqlmodel>=0.0.22"]
