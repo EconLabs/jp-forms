@@ -35,9 +35,6 @@ class TravelerTable(SQLModel, table=True):
     travel_spending: int
     category_spend_id: int = Field(int, foreign_key="spendcategorytable.id") # NOTE: Same as line 33
 
-
-
-
 class StatusTable(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
     name: str
@@ -55,6 +52,51 @@ class RacialOriginTable(SQLModel, table=True):
     name: str
 
 class HispanicTable(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+
+class EducationTable(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+
+class TravelCompanionTable(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+
+class OriginTable(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+    iso_code: str
+
+class LodgingTable(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+
+class PrincipalPurposeTable(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+
+class ActivityTable(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+
+class SocialTable(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+
+class MunicipalityTable(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+
+class SecurityTable(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+
+class SpendCategoryTable(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+
+class DestinationTable(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
     name: str
 
@@ -102,23 +144,40 @@ def create_trade(engine):
     hispanic_8 = HispanicTable(id=98, name="other")
     hispanic_9 = HispanicTable(id=99, name="no_response")
 
+    # Add static education data
+    education_1 = EducationTable(id=1, name="no_primary")
+    education_2 = EducationTable(id=2, name="primary")
+    education_3 = EducationTable(id=3, name="secondary")
+    education_4 = EducationTable(id=4, name="technical")
+    education_5 = EducationTable(id=5, name="bachelor")
+    education_6 = EducationTable(id=6, name="postgraduate")
+
+    # Add static travel companion data
+    travel_companion_1 = TravelCompanionTable(id=1, name="alone")
+    travel_companion_2 = TravelCompanionTable(id=2, name="friends")
+    travel_companion_3 = TravelCompanionTable(id=3, name="family")
+    travel_companion_4 = TravelCompanionTable(id=4, name="group")
 
     with Session(engine) as session:
         session.add_all([status_1, status_2])
+
         session.add_all([
             gender_1, gender_2,
             gender_3, gender_4,
             gender_5, gender_6])
+
         session.add_all([
             orientation_1, orientation_2,
             orientation_3, orientation_4,
             orientation_5, orientation_6,
             orientation_7, orientation_8])
+
         session.add_all([
             racial_origin_1, racial_origin_2,
             racial_origin_3, racial_origin_4,
             racial_origin_5, racial_origin_6,
             racial_origin_7, racial_origin_8])
+
         session.add_all([
             hispanic_1, hispanic_2,
             hispanic_3, hispanic_4,
@@ -126,6 +185,14 @@ def create_trade(engine):
             hispanic_7, hispanic_8,
             hispanic_9])
 
+        session.add_all([
+            education_1, education_2,
+            education_3, education_4,
+            education_5, education_6])
+
+        session.add_all([
+            travel_companion_1, travel_companion_2,
+            travel_companion_3, travel_companion_4])
 
         session.commit()
 
